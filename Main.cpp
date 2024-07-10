@@ -6,12 +6,14 @@
 #include <algorithm>
 #include <numeric>
 #include <cstdlib>
+#include <stdlib.h>
+
 
 using namespace std;
 
 const int MAX_SIZE = 1000;
 
-class NhanVien 
+class NhanVien
 {
 private:
     long long maNV;
@@ -27,56 +29,60 @@ private:
     float ThucLinh;
 
 public:
-    void nhap() 
+    void nhap()
     {
         cout << "Nhap ma nhan vien: ";  cin >> maNV;            cin.ignore();
         cout << "Nhap luong: ";         cin >> LuongCB;         cin.ignore();
         cout << "Nhap Phu Cap: ";       cin >> Phucap;          cin.ignore();
         cout << "Nhap so CCCD: ";       cin >> CCCD;            cin.ignore();
-        cout << "Nhap ho va ten: ";     getline(cin, HovaTen);  
-        cout << "Nhap dia chi: ";       getline(cin, DiaChi);   
-        cout << "Nhap gioi tinh: ";     getline(cin, GioiTinh); 
-        cout << "Nhap ngay sinh: ";     getline(cin, NgaySinh); 
-        cout << "Nhap email: ";         getline(cin, Email);    
-        cout << "Nhap so dien thoai: "; getline(cin, SoDT);     
+        cout << "Nhap ho va ten: ";     getline(cin, HovaTen);
+        cout << "Nhap dia chi: ";       getline(cin, DiaChi);
+        cout << "Nhap gioi tinh: ";     getline(cin, GioiTinh);
+        cout << "Nhap ngay sinh: ";     getline(cin, NgaySinh);
+        cout << "Nhap email: ";         getline(cin, Email);
+        cout << "Nhap so dien thoai: "; getline(cin, SoDT);
 
         ThucLinh = LuongCB + Phucap;
     }
 
-    void xuat() const 
+    void xuat() const
     {
-        cout << setw(10) << maNV << setw(20) << HovaTen << setw(14) << NgaySinh << setw(20) << DiaChi << setw(15) << GioiTinh << setw(25) << Email << setw(18) << SoDT << setw(18) << CCCD << setw(10) << LuongCB << setw(10) << Phucap << setw(10) << ThucLinh << endl;
+        cout << fixed << setprecision(0);
+        cout << setw(3) << maNV << setw(21) << HovaTen << setw(14) << NgaySinh
+             << setw(19) << DiaChi << setw(9) << GioiTinh << setw(31) << Email
+             << setw(18) << SoDT << setw(18) << CCCD << setw(10) << LuongCB
+             << setw(10) << Phucap << setw(13) << ThucLinh << endl;
     }
 
-    long long get_maNV() const 
+    long long get_maNV() const
     {
         return maNV;
     }
 
-    long long get_CCCD() const 
+    long long get_CCCD() const
     {
         return CCCD;
     }
 
-    float get_ThucLinh() const 
+    float get_ThucLinh() const
     {
         return ThucLinh;
     }
 
-    float get_Phucap() const 
+    float get_Phucap() const
     {
         return Phucap;
     }
 
-    string get_HovaTen() const 
+    string get_HovaTen() const
     {
         return HovaTen;
     }
 
-    static void readFile(const string& filename, NhanVien employees[], int& size) 
+    static void readFile(const string& filename, NhanVien employees[], int& size)
     {
         ifstream file(filename);
-        if (!file) 
+        if (!file)
         {
             cout << "Khong mo duoc file." << endl;
             return;
@@ -84,7 +90,7 @@ public:
 
         string line;
         size = 0;
-        while (getline(file, line) && size < MAX_SIZE) 
+        while (getline(file, line) && size < MAX_SIZE)
         {
             istringstream iss(line);
             NhanVien& nv = employees[size];
@@ -103,37 +109,39 @@ public:
         file.close();
     }
 
-    static void writeFile(const string& filename, NhanVien employees[], int size) 
+    static void writeFile(const string& filename, NhanVien employees[], int size)
     {
-        ofstream file(filename); 
-        if (!file) 
+        ofstream file(filename);
+        if (!file)
         {
             cout << "Khong mo duoc file." << endl;
             return;
         }
 
-        for (int i = 0; i < size; ++i) 
+        for (int i = 0; i < size; ++i)
         {
             const NhanVien& nv = employees[i];
-            file << nv.maNV << " " << nv.LuongCB << " " << nv.Phucap << " " << nv.CCCD << " " << nv.HovaTen << "," << nv.DiaChi << "," << nv.GioiTinh << "," << nv.NgaySinh << "," << nv.Email << "," << nv.SoDT << "," << endl;
+            file << nv.maNV << " " << nv.LuongCB << " " << nv.Phucap << " " << nv.CCCD << " "
+                 << nv.HovaTen << "," << nv.DiaChi << "," << nv.GioiTinh << "," << nv.NgaySinh
+                 << "," << nv.Email << "," << nv.SoDT << "," << endl;
         }
 
         file.close();
     }
 };
 
-void nhapds(NhanVien nv[], int& size) 
+void nhapds(NhanVien nv[], int& size)
 {
     int n;
     cout << "Nhap so luong nhan vien: ";
     cin >> n;
-    if (n > MAX_SIZE - size) 
+    if (n > MAX_SIZE - size)
     {
         cout << "So luong nhan vien vuot qua kich thuoc toi da!" << endl;
         return;
     }
 
-    for (int i = size; i < size + n; ++i) 
+    for (int i = size; i < size + n; ++i)
     {
         cout << endl << "Nhan Vien Thu: " << i + 1 << endl;
         nv[i].nhap();
@@ -142,24 +150,27 @@ void nhapds(NhanVien nv[], int& size)
     size += n;
 }
 
-void xuatds(NhanVien nv[], int size) 
+void xuatds(NhanVien nv[], int size)
 {
-    cout << setw(10) << "MaNV" << setw(20) << "Ho va Ten" << setw(14) << "Ngay Sinh" << setw(20) << "Dia Chi" << setw(15) << "Gioi Tinh" << setw(25) << "Email" << setw(18) << "So DT" << setw(18) << "CCCD" << setw(10) << "LuongCB" << setw(10) << "Phu Cap" << setw(10) << "Thuc Linh" << endl;
-    for (int i = 0; i < size; ++i) 
+    cout << setw(3)  << "MaNV"    << setw(20) << "Ho va Ten" << setw(14) << "Ngay Sinh"
+         << setw(19) << "Dia Chi" << setw(12) << "Gioi Tinh" << setw(28) << "Email"
+         << setw(18) << "So DT"   << setw(18) << "CCCD"      << setw(10) << "LuongCB"
+         << setw(10) << "Phu Cap" << setw(13) << "Thuc Linh" << endl;
+    for (int i = 0; i < size; ++i)
     {
         nv[i].xuat();
     }
 }
 
-void TKMaNV(NhanVien nv[], int size) 
+void TKMaNV(NhanVien nv[], int size)
 {
     long long Ma;
     int count = 0;
     cout << "Nhap ma nhan vien can tim: ";
     cin >> Ma;
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_maNV() == Ma) 
+        if (nv[i].get_maNV() == Ma)
         {
             nv[i].xuat();
             count++;
@@ -169,15 +180,15 @@ void TKMaNV(NhanVien nv[], int size)
         cout << "Khong tim thay ma nhan vien can tim." << endl;
 }
 
-void TKCCCD(NhanVien nv[], int size) 
+void TKCCCD(NhanVien nv[], int size)
 {
     long long cccd;
     int count = 0;
     cout << "Nhap CCCD nhan vien can tim: ";
     cin >> cccd;
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_CCCD() == cccd) 
+        if (nv[i].get_CCCD() == cccd)
         {
             nv[i].xuat();
             count++;
@@ -187,16 +198,16 @@ void TKCCCD(NhanVien nv[], int size)
         cout << "Khong tim thay CCCD nhan vien can tim." << endl;
 }
 
-void TKTen(NhanVien nv[], int size) 
+void TKTen(NhanVien nv[], int size)
 {
     string ten;
     int count = 0;
     cout << "Nhap ten nhan vien can tim: ";
     cin.ignore();
     getline(cin, ten);
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_HovaTen() == ten) 
+        if (nv[i].get_HovaTen() == ten)
         {
             nv[i].xuat();
             count++;
@@ -206,9 +217,9 @@ void TKTen(NhanVien nv[], int size)
         cout << "Khong tim thay nhan vien co ten can tim." << endl;
 }
 
-void sapxep(NhanVien nv[], int size) 
+void sapxep(NhanVien nv[], int size)
 {
-    sort(nv, nv + size, [](const NhanVien& a, const NhanVien& b) 
+    sort(nv, nv + size, [](const NhanVien& a, const NhanVien& b)
     {
         return a.get_ThucLinh() < b.get_ThucLinh();
     });
@@ -216,23 +227,24 @@ void sapxep(NhanVien nv[], int size)
     xuatds(nv, size);
 }
 
-void tongLuong(NhanVien nv[], int size) 
+void tongLuong(NhanVien nv[], int size)
 {
-    double TongLuong = accumulate(nv, nv + size, 0.0, [](double sum, const NhanVien& nvItem) 
+    double TongLuong = accumulate(nv, nv + size, 0.0, [](double sum, const NhanVien& nvItem)
     {
         return sum + nvItem.get_ThucLinh();
     });
+    cout << fixed << setprecision(0);
     cout << "Tong luong cua nhan vien la: " << TongLuong << endl;
 }
 
-void thucLinhmax(NhanVien nv[], int size) 
+void thucLinhmax(NhanVien nv[], int size)
 {
-    if (size == 0) 
+    if (size == 0)
     {
         cout << "Danh sach nhan vien trong." << endl;
         return;
     }
-    auto max_nv = max_element(nv, nv + size, [](const NhanVien& a, const NhanVien& b) 
+    auto max_nv = max_element(nv, nv + size, [](const NhanVien& a, const NhanVien& b)
     {
         return a.get_ThucLinh() < b.get_ThucLinh();
     });
@@ -240,12 +252,12 @@ void thucLinhmax(NhanVien nv[], int size)
     max_nv->xuat();
 }
 
-void timphucap(NhanVien nv[], int size) 
+void timphucap(NhanVien nv[], int size)
 {
     int count = 0;
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_Phucap() > 100000) 
+        if (nv[i].get_Phucap() > 100000)
         {
             nv[i].xuat();
             count++;
@@ -255,38 +267,38 @@ void timphucap(NhanVien nv[], int size)
         cout << "Khong co nhan vien nao co phu cap > 100000." << endl;
 }
 
-void xoa(NhanVien nv[], int& size) 
+void xoa(NhanVien nv[], int& size)
 {
     long long Ma;
     cout << "Nhap ma nhan vien can xoa: ";
     cin >> Ma;
     int pos = -1;
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_maNV() == Ma) 
+        if (nv[i].get_maNV() == Ma)
         {
             pos = i;
             break;
         }
     }
-    if (pos != -1) 
+    if (pos != -1)
     {
-        for (int i = pos; i < size - 1; ++i) 
+        for (int i = pos; i < size - 1; ++i)
         {
             nv[i] = nv[i + 1];
         }
         size--;
         cout << "Da xoa nhan vien co ma " << Ma << endl;
-    } 
-    else 
+    }
+    else
     {
         cout << "Khong tim thay ma nhan vien can xoa." << endl;
     }
 }
 
-void them(NhanVien nv[], int& size) 
+void them(NhanVien nv[], int& size)
 {
-    if (size >= MAX_SIZE) 
+    if (size >= MAX_SIZE)
     {
         cout << "Danh sach nhan vien da day." << endl;
         return;
@@ -295,14 +307,14 @@ void them(NhanVien nv[], int& size)
     size++;
 }
 
-void sua(NhanVien nv[], int size) 
+void sua(NhanVien nv[], int size)
 {
     long long Ma;
     cout << "Nhap ma nhan vien can sua: ";
     cin >> Ma;
-    for (int i = 0; i < size; ++i) 
+    for (int i = 0; i < size; ++i)
     {
-        if (nv[i].get_maNV() == Ma) 
+        if (nv[i].get_maNV() == Ma)
         {
             nv[i].nhap();
             cout << "Sua thong tin thanh cong." << endl;
@@ -312,12 +324,21 @@ void sua(NhanVien nv[], int size)
     cout << "Khong tim thay ma nhan vien." << endl;
 }
 
-void menu(NhanVien nv[], int& size) 
+void sapXepTheoTen(NhanVien nv[], int size)
+{
+    sort(nv, nv + size, [](const NhanVien& a, const NhanVien& b)
+    {
+        return a.get_HovaTen() < b.get_HovaTen();
+    });
+    cout << endl << "Danh sach sau khi sap xep theo ten: " << endl;
+    xuatds(nv, size);
+}
+
+void menu(NhanVien nv[], int& size)
 {
     int choice;
-    bool backToMenu = false;
 
-    do 
+     do
     {
         cout << " _____________________________________________________________________________" << endl;
         cout << "|*****************************************************************************|" << endl;
@@ -355,7 +376,15 @@ void menu(NhanVien nv[], int& size)
         cout << "Nhap lua chon cua ban [1-15]: ";
         cin >> choice;
 
-        switch (choice) 
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Lua chon khong hop le. Vui long chon lai." << endl;
+            continue;
+        }
+
+        switch (choice)
         {
             case 1:
                 nhapds(nv, size);
@@ -397,7 +426,7 @@ void menu(NhanVien nv[], int& size)
                 sua(nv, size);
                 NhanVien::writeFile("NhanVien.txt", nv, size);
                 break;
-            case 13: 
+            case 13:
             {
                 string newFilename;
                 cout << "Nhap ten file moi de luu danh sach: ";
@@ -408,16 +437,39 @@ void menu(NhanVien nv[], int& size)
                 break;
             }
             case 14:
-                backToMenu = true;
+                sapXepTheoTen(nv, size);
                 break;
             case 15:
-                cout << "Thoat chuong trinh." << endl;
-                exit(0);
+               cout <<                                                               endl;
+               cout << "                   Thoat chuong trinh                   " << endl;
+               cout << "                   ------------------                   " << endl;
+               cout << "   Cam on ban da su dung chuong trinh cua chung toi!    " << endl;
+               cout << "                                                        " << endl;
+               cout << "   Chuong trinh duoc xay dung va phat trien boi:        " << endl;
+               cout << "  ----------------------------------------------------  " << endl;
+               cout << "|  Nguyen Cao Truong(C)  ETTN-K68       20233686       |" << endl;
+               cout << "|  Pham Minh Tuan        ETTN-K68       20233701       |" << endl;
+               cout << "|  Dang Nam Khanh        ETTN-K68       20233460       |" << endl;
+               cout << "|  Nguyen Van Khang      ETTN-K68       20233458       |" << endl;
+               cout << "|                                                      |" << endl;
+               cout << "|                 Cam on va hen gap lai!               |" << endl;
+               cout << "|------------------------------------------------------|" << endl;
+               cout                                                               << endl;
+               cout << "   +--------------------------------------+             " << endl;
+               cout << "    Thong tin lien he:                                  " << endl;
+               cout << "   +--------------------------------------+             " << endl;
+               cout << "   Dia chi: 123 ABC Street, XYZ City, Vietnam           " << endl;
+               cout << "   Email: nguyencaotruong911@gmail.com                  " << endl;
+               cout << "   So dien thoai: (+84) 036 633 2601                    " << endl;
+               cout << "   Website: https://linktr.ee/nguyencaotruong           " << endl;
+               cout << "   +--------------------------------------+             " << endl;
+               exit(0);
+
             default:
                 cout << "Lua chon khong hop le. Vui long chon lai." << endl;
         }
 
-        if (choice != 14 && !backToMenu) 
+        if (choice != 15)
         {
             cout << "Nhan 'ENTER' de tiep tuc..." << endl;
             cin.ignore();
@@ -426,7 +478,7 @@ void menu(NhanVien nv[], int& size)
     } while (choice != 15);
 }
 
-int main() 
+int main()
 {
     NhanVien nv[MAX_SIZE];
     int size = 0;
